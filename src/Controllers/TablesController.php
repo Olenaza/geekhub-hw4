@@ -12,6 +12,7 @@ class TablesController
 
     /**
      * TablesController constructor.
+     *
      * @param $connector
      */
     public function __construct($connector)
@@ -24,7 +25,8 @@ class TablesController
     }
 
     /**
-     * Add tables to the database
+     * Add tables to the database.
+     *
      * @return string
      */
     public function createAction()

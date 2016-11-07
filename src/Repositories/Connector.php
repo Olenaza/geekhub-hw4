@@ -8,7 +8,8 @@ class Connector
 
     /**
      * UniversitiesRepository constructor.
-     * Create the database if not exists and initialize the database connection with sql server via given credentials
+     * Create the database if not exists and initialize the database connection with sql server via given credentials.
+     *
      * @param $databasename
      * @param $user
      * @param $pass
@@ -19,7 +20,7 @@ class Connector
 
         //$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-        $databasename = "`".str_replace("`","``",$databasename)."`";
+        $databasename = '`'.str_replace('`', '``', $databasename).'`';
 
         $pdo->query("CREATE DATABASE IF NOT EXISTS $databasename");
 

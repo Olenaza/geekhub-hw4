@@ -12,6 +12,7 @@ class UniversitiesController
 
     /**
      * UniversitiesController constructor.
+     *
      * @param $connector
      */
     public function __construct($connector)
@@ -24,7 +25,8 @@ class UniversitiesController
     }
 
     /**
-     * Show all universities in the database
+     * Show all universities in the database.
+     *
      * @return string
      */
     public function indexAction()
@@ -35,7 +37,8 @@ class UniversitiesController
     }
 
     /**
-     * Show form for adding a new university and add the new university to the database
+     * Show form for adding a new university and add the new university to the database.
+     *
      * @return string
      */
     public function newAction()
@@ -48,8 +51,10 @@ class UniversitiesController
                     'site' => $_GET['site'],
                 ]
             );
+
             return $this->indexAction();
         }
+
         return $this->twig->render('universities_form.html.twig',
             [
                 'id' => '',
@@ -57,13 +62,14 @@ class UniversitiesController
                 'city' => '',
                 'site' => '',
                 'action' => 'new',
-                'button' => 'Create'
+                'button' => 'Create',
             ]
         );
     }
 
     /**
-     * Show form for updating a university data and update the database
+     * Show form for updating a university data and update the database.
+     *
      * @return string
      */
     public function editAction()
@@ -74,12 +80,14 @@ class UniversitiesController
                     'name' => $_GET['name'],
                     'city' => $_GET['city'],
                     'site' => $_GET['site'],
-                    'id'   => (int) $_GET['id'],
+                    'id' => (int) $_GET['id'],
                 ]
             );
+
             return $this->indexAction();
         }
         $universitiesData = $this->repository->find((int) $_GET['id']);
+
         return $this->twig->render('universities_form.html.twig',
             [
                 'id' => $_GET['id'],
@@ -87,29 +95,33 @@ class UniversitiesController
                 'city' => $universitiesData['city'],
                 'site' => $universitiesData['site'],
                 'action' => 'edit',
-                'button' => 'Update'
+                'button' => 'Update',
             ]
         );
     }
 
     /**
-     * Remove a university from the database
+     * Remove a university from the database.
+     *
      * @return string
      */
     public function deleteAction()
     {
         if (isset($_GET['submit'])) {
-            if ($_GET['submit']=='Delete') {
+            if ($_GET['submit'] == 'Delete') {
                 $id = (int) $_GET['id'];
                 $this->repository->remove(['id' => $id]);
             }
+
             return $this->indexAction();
         }
+
         return $this->twig->render('universities_delete.html.twig', array('university_id' => $_GET['id']));
     }
 
     /**
-     * Show form for searching by full name and/or city or their parts and show search results
+     * Show form for searching by full name and/or city or their parts and show search results.
+     *
      * @return string
      */
     public function searchAction()
@@ -121,19 +133,21 @@ class UniversitiesController
                     'search_city' => $_GET['search_city'],
                 ]
             );
+
             return $this->twig->render('universities_search.html.twig',
                 [
                     'universities' => $universitiesData,
                     'search_name' => $_GET['search_name'],
-                    'search_city' => $_GET['search_city']
+                    'search_city' => $_GET['search_city'],
                 ]
             );
         }
+
         return $this->twig->render('universities_search.html.twig',
             [
                 'universities' => [],
                 'search_name' => '',
-                'search_city' => ''
+                'search_city' => '',
             ]
         );
     }

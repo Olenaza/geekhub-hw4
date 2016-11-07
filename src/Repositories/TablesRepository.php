@@ -8,7 +8,8 @@ class TablesRepository
 
     /**
      * TablesRepository constructor.
-     * Initialize the database connection with sql server via given credentials
+     * Initialize the database connection with sql server via given credentials.
+     *
      * @param $connector
      */
     public function __construct($connector)
@@ -17,7 +18,8 @@ class TablesRepository
     }
 
     /**
-     * Create tables if not exist
+     * Create tables if not exist.
+     *
      * @return mixed
      */
     public function createTables()
@@ -27,7 +29,7 @@ class TablesRepository
           name VARCHAR(50) NOT NULL,
           city VARCHAR(50) NOT NULL,
           site VARCHAR(50)) CHARACTER SET utf8');
+
         return $statement->execute();
     }
 }
-

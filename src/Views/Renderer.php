@@ -8,6 +8,7 @@ class Renderer
 
     /**
      * Renderer constructor.
+     *
      * @param $templatesDirectory
      */
     public function __construct($templatesDirectory)
@@ -19,8 +20,9 @@ class Renderer
     {
         ob_start();
         eval($data);
-        require $this->templatesDirectory . $template;
+        require $this->templatesDirectory.$template;
         $renderedHtml = ob_get_clean();
+
         return $renderedHtml;
     }
 }

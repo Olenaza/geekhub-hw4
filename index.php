@@ -4,8 +4,8 @@ require_once 'vendor/autoload.php';
 require_once 'configuration.php';
 
 $controllerName = isset($_GET['controller']) ? $_GET['controller'] : 'universities';
-$controllerName = ucfirst($controllerName) . 'Controller';
-$controllerName = 'Controllers\\' . $controllerName;
+$controllerName = ucfirst($controllerName).'Controller';
+$controllerName = 'Controllers\\'.$controllerName;
 
 $connector = new Repositories\Connector(
     $configuration['database'],
@@ -16,7 +16,7 @@ $connector = new Repositories\Connector(
 $controller = new $controllerName($connector);
 
 $actionName = isset($_GET['action']) ? $_GET['action'] : 'index';
-$actionName = $actionName . 'Action';
+$actionName = $actionName.'Action';
 
 $response = $controller->$actionName();
 
