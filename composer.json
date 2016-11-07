@@ -1,0 +1,23 @@
+{
+  "name": "universities/universities_db",
+  "authors": [
+    {
+      "name": "Olena Zamkova",
+      "email": "olena.zamkova@gmail.com"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "Controllers\\": "src/Controllers",
+      "Repositories\\": "src/Repositories",
+      "Views\\": "src/Views"
+    }
+  },
+
+  "minimum-stability": "dev",
+  "require": {
+    "php": ">=5.5.0",
+    "ext-mysqlnd": "*",
+    "twig/twig": "^2.0@dev"
+  }
+}

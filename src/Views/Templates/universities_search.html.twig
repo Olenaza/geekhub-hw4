@@ -1,0 +1,88 @@
+<!doctype html>
+<html>
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" integrity="sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ==" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" integrity="sha512-K1qjQ+NcF2TYO/eI3M6v8EiNYZfA95pQumfvcVrTHtwQVDG+aHRqLi/ETn2uB+1JqwYqVG3LIvdm9lj6imS/pQ==" crossorigin="anonymous"></script>
+</head>
+<body>
+<nav class="navbar navbar-default" role="navigation">
+    <div class="container-fluid">
+        <!-- Бренд та перемикач згруповані для кращого відображення на мобільних пристроях -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="index.php">Universities Database</a>
+        </div>
+
+        <!-- Зібрано навігаційні лінки, форми, та інший вміст для переключення -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Tables<span class="caret"></span></a>
+                    <ul class="dropdown-menu" role="menu">
+                        <li><a href="index.php?controller=tables&action=create">Create tables</a></li>
+                        <li><a href="#">Populate tables</a></li>
+                    </ul>
+                </li>
+            </ul>
+            <ul class="nav navbar-nav">
+                <li class="dropdown">
+                    <a href="index.php" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Universities<span class="caret"></span></a>
+                    <ul class="dropdown-menu" role="menu">
+                        <li><a href="index.php">Show all</a></li>
+                        <li><a href="index.php?controller=universities&action=new">Add</a></li>
+                        <li><a href="index.php?controller=universities&action=search">Search</a></li>
+                    </ul>
+                </li>
+            </ul>
+
+        </div><!-- /.navbar-collapse -->
+    </div><!-- /.container-fluid -->
+</nav>
+<div class="container">
+    <h1>Search Universities</h1>
+    <hr>
+    <form method="GET" action="#">
+        <input type="hidden" name="controller" value="universities">
+        <input type="hidden" name="action" value="search">
+        <div class="row">
+            <label for="=name">Name:</label>
+            <input class="form-control" type="text" name="search_name" value="{{ search_name }}">
+        </div>
+        <div class="row">
+            <label for="city">City:</label>
+            <input class="form-control" type="text" name="search_city" value="{{ search_city }}">
+        </div>
+        <br>
+        <div class="row">
+            <input class="btn btn-default" type="submit" value="Search">
+        </div>
+    </form>
+    <br>
+    <h3>Search results:</h3>
+    <table class="table table-bordered">
+        <tr>
+            <th>#</th>
+            <th>Name</th>
+            <th>City</th>
+            <th>Site</th>
+            <th>Actions</th>
+        </tr>
+        {% for university in universities %}
+            <tr>
+                <td>{{ university.id }}</td>
+                <td>{{ university.name }}</td>
+                <td>{{ university.city }}</td>
+                <td>{{ university.site }}</td>
+                <td><a href="index.php?controller=universities&action=edit&id={{ university.id }}">edit</a> <a href="index.php?controller=universities&action=delete&id={{ university.id }}">delete</a></td>
+            </tr>
+        {% endfor %}
+    </table>
+    <a href="index.php?controller=universities&action=new">Add a new university</a>
+</div>
+</body>
