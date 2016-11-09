@@ -54,44 +54,28 @@
     </div><!-- /.container-fluid -->
 </nav>
 <div class="container">
-    <h1>Search Universities</h1>
-    <hr>
+    <h1>Departments Form</h1>
     <form method="GET" action="#">
-        <input type="hidden" name="controller" value="universities">
-        <input type="hidden" name="action" value="search">
+        <input type="hidden" name="controller" value="departments">
+        <input type="hidden" name="action" value="{{ action }}">
+        <input type="hidden" name="id" value="{{ id }}">
         <div class="row">
             <label for="=name">Name:</label>
-            <input class="form-control" type="text" name="search_name" value="{{ search_name }}">
+            <input class="form-control" type="text" id="name" name="name" value="{{ name }}">
         </div>
         <div class="row">
-            <label for="city">City:</label>
-            <input class="form-control" type="text" name="search_city" value="{{ search_city }}">
+            <label for="city">University:</label>
+            <select name="university_id">
+                {% for university in universities %}
+                    <option value="{{ university.id }}">{{ university.name }}</option>
+                {% endfor %}
+            </select>
         </div>
         <br>
         <div class="row">
-            <input class="btn btn-default" type="submit" value="Search">
+            <input class="btn btn-default" type="submit" value="{{ button }}">
         </div>
     </form>
-    <br>
-    <h3>Search results:</h3>
-    <table class="table table-bordered">
-        <tr>
-            <th>#</th>
-            <th>Name</th>
-            <th>City</th>
-            <th>Site</th>
-            <th>Actions</th>
-        </tr>
-        {% for university in universities %}
-            <tr>
-                <td>{{ university.id }}</td>
-                <td>{{ university.name }}</td>
-                <td>{{ university.city }}</td>
-                <td>{{ university.site }}</td>
-                <td><a href="index.php?controller=universities&action=edit&id={{ university.id }}">edit</a> <a href="index.php?controller=universities&action=delete&id={{ university.id }}">delete</a></td>
-            </tr>
-        {% endfor %}
-    </table>
-    <a href="index.php?controller=universities&action=new">Add a new university</a>
 </div>
 </body>
+</html>

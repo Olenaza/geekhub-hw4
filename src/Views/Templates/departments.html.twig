@@ -42,7 +42,7 @@
             </ul>
             <ul class="nav navbar-nav">
                 <li class="dropdown">
-                    <a href="index.php?controller=departments&action=index" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Departments<span class="caret"></span></a>
+                    <a href="index.php" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Departments<span class="caret"></span></a>
                     <ul class="dropdown-menu" role="menu">
                         <li><a href="index.php?controller=departments&action=index">Show all</a></li>
                         <li><a href="index.php?controller=departments&action=new">Add</a></li>
@@ -54,44 +54,24 @@
     </div><!-- /.container-fluid -->
 </nav>
 <div class="container">
-    <h1>Search Universities</h1>
+    <h1>Departments</h1>
     <hr>
-    <form method="GET" action="#">
-        <input type="hidden" name="controller" value="universities">
-        <input type="hidden" name="action" value="search">
-        <div class="row">
-            <label for="=name">Name:</label>
-            <input class="form-control" type="text" name="search_name" value="{{ search_name }}">
-        </div>
-        <div class="row">
-            <label for="city">City:</label>
-            <input class="form-control" type="text" name="search_city" value="{{ search_city }}">
-        </div>
-        <br>
-        <div class="row">
-            <input class="btn btn-default" type="submit" value="Search">
-        </div>
-    </form>
-    <br>
-    <h3>Search results:</h3>
     <table class="table table-bordered">
         <tr>
             <th>#</th>
             <th>Name</th>
-            <th>City</th>
-            <th>Site</th>
+            <th>University</th>
             <th>Actions</th>
         </tr>
-        {% for university in universities %}
+        {% for department in departments %}
             <tr>
-                <td>{{ university.id }}</td>
-                <td>{{ university.name }}</td>
-                <td>{{ university.city }}</td>
-                <td>{{ university.site }}</td>
-                <td><a href="index.php?controller=universities&action=edit&id={{ university.id }}">edit</a> <a href="index.php?controller=universities&action=delete&id={{ university.id }}">delete</a></td>
+                <td>{{ department.id }}</td>
+                <td>{{ department.name }}</td>
+                <td>{{ department.university }}</td>
+                <td><a href="index.php?controller=departments&action=edit&id={{ department.id }}">edit</a> <a href="index.php?controller=departments&action=delete&id={{ department.id }}">delete</a></td>
             </tr>
         {% endfor %}
     </table>
-    <a href="index.php?controller=universities&action=new">Add a new university</a>
+    <a href="index.php?controller=departments&action=new">Add a new department</a>
 </div>
 </body>

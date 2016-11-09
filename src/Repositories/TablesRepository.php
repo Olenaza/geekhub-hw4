@@ -24,12 +24,23 @@ class TablesRepository
      */
     public function createTables()
     {
-        $statement = $this->connector->getPdo()->prepare('CREATE TABLE IF NOT EXISTS universities(
+        $statementCreateUniversitiesTable = $this->connector->getPdo()->prepare('CREATE TABLE IF NOT EXISTS universities(
           id INT(10) NOT NULL AUTO_INCREMENT PRIMARY KEY,
           name VARCHAR(50) NOT NULL,
           city VARCHAR(50) NOT NULL,
-          site VARCHAR(50)) CHARACTER SET utf8');
+          site VARCHAR(50),
+          CONSTRAINT name_unique UNIQUE (name)) CHARACTER SET utf8');
 
-        return $statement->execute();
+        $statementCreateUniversitiesTable->execute();
+
+        $statementCreateDepartmentsTable = $this->connector->getPdo()->prepare('CREATE TABLE IF NOT EXISTS departments(
+          id INT(10) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+          name VARCHAR(50) NOT NULL,
+          university_id INT(10) NOT NULL,
+          CONSTRAINT name_university_unique UNIQUE (name, university_id)) CHARACTER SET utf8');
+
+        $statementCreateDepartmentsTable->execute();
+
+        return;
     }
 }

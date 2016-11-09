@@ -7,7 +7,7 @@ class UniversitiesRepository implements RepositoryInterface
     private $connector;
 
     /**
-     * StudentsRepository constructor.
+     * UniversitiesRepository constructor.
      * Initialize the database connection with sql server via given credentials.
      *
      * @param $connector
