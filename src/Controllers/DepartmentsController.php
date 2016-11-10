@@ -35,7 +35,7 @@ class DepartmentsController
     public function indexAction()
     {
         $departmentsData = $this->repository->findAll();
-        
+
         return $this->twig->render('departments.html.twig', ['departments' => $departmentsData]);
     }
 
@@ -50,7 +50,7 @@ class DepartmentsController
             $this->repository->insert(
                 [
                     'name' => $_GET['name'],
-                    'university_id' => $_GET['university_id']
+                    'university_id' => $_GET['university_id'],
                 ]
             );
 
@@ -58,13 +58,15 @@ class DepartmentsController
         }
 
         $universitiesData = $this->universities_repository->findAll();
+
         return $this->twig->render('departments_form.html.twig',
             [
                 'id' => '',
                 'name' => '',
+                'university_id' => '',
                 'action' => 'new',
                 'button' => 'Create',
-                'universities' => $universitiesData
+                'universities' => $universitiesData,
             ]
         );
     }
@@ -81,7 +83,7 @@ class DepartmentsController
                 [
                     'name' => $_GET['name'],
                     'university_id' => $_GET['university_id'],
-                    'id' => (int) $_GET['id']
+                    'id' => (int) $_GET['id'],
                 ]
             );
 
@@ -94,9 +96,10 @@ class DepartmentsController
             [
                 'id' => $_GET['id'],
                 'name' => $departmentData['name'],
+                'university_id' => $departmentData['university_id'],
                 'action' => 'edit',
                 'button' => 'Update',
-                'universities' => $universitiesData
+                'universities' => $universitiesData,
             ]
         );
     }
@@ -132,7 +135,6 @@ class DepartmentsController
                 [
                     'search_name' => $_GET['search_name'],
                     'search_university' => $_GET['search_university'],
-                    'search_city' => $_GET['search_city']
                 ]
             );
 
@@ -141,7 +143,6 @@ class DepartmentsController
                     'departments' => $departmentsData,
                     'search_name' => $_GET['search_name'],
                     'search_university' => $_GET['search_university'],
-                    'search_city' => $_GET['search_city'],
                 ]
             );
         }
@@ -151,7 +152,6 @@ class DepartmentsController
                 'departments' => [],
                 'search_name' => '',
                 'search_university' => '',
-                'search_city' => ''
             ]
         );
     }

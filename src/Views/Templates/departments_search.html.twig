@@ -1,8 +1,26 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <h1>Departments</h1>
+    <h1>Search Departments</h1>
     <hr>
+    <form method="GET" action="#">
+        <input type="hidden" name="controller" value="departments">
+        <input type="hidden" name="action" value="search">
+        <div class="row">
+            <label for="=name">Name:</label>
+            <input class="form-control" type="text" name="search_name" value="{{ search_name }}">
+        </div>
+        <div class="row">
+            <label for="city">University:</label>
+            <input class="form-control" type="text" name="search_university" value="{{ search_university }}">
+        </div>
+        <br>
+        <div class="row">
+            <input class="btn btn-default" type="submit" value="Search">
+        </div>
+    </form>
+    <br>
+    <h3>Search results:</h3>
     <table class="table table-bordered">
         <tr>
             <th>#</th>
