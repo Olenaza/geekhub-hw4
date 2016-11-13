@@ -1,18 +1,14 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <h1>Search Students</h1>
+    <h1>Search Subjects</h1>
     <hr>
     <form method="GET" action="#">
-        <input type="hidden" name="controller" value="students">
+        <input type="hidden" name="controller" value="subjects">
         <input type="hidden" name="action" value="search">
         <div class="row">
-            <label for="=search_first_name">First Name:</label>
-            <input class="form-control" type="text" name="search_first_name" value="{{ search_first_name }}">
-        </div>
-        <div class="row">
-            <label for="=search_last_name">Last Name:</label>
-            <input class="form-control" type="text" name="search_last_name" value="{{ search_last_name }}">
+            <label for="=search_name">Name:</label>
+            <input class="form-control" type="text" name="search_name" value="{{ search_name }}">
         </div>
         <br>
         <div class="row">
@@ -49,5 +45,5 @@
     </form>
     <br>
     <h3>Search results:</h3>
-    {% include "students_list.html.twig" %}
+    {% include "subjects_list.html.twig" %}
 {% endblock %}

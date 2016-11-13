@@ -2,11 +2,11 @@
 
 namespace Controllers;
 
-use Repositories\StudentsRepository;
+use Repositories\SubjectsRepository;
 use Repositories\DepartmentsRepository;
 use Repositories\UniversitiesRepository;
 
-class StudentsController
+class SubjectsController
 {
     private $repository;
     private $departments_repository;
@@ -21,7 +21,7 @@ class StudentsController
      */
     public function __construct($connector)
     {
-        $this->repository = new StudentsRepository($connector);
+        $this->repository = new SubjectsRepository($connector);
         $this->departments_repository = new DepartmentsRepository($connector);
         $this->universities_repository = new UniversitiesRepository($connector);
         $this->loader = new \Twig_Loader_Filesystem('src/Views/Templates/');
@@ -31,31 +31,28 @@ class StudentsController
     }
 
     /**
-     * Show all students in the database.
+     * Show all subjects in the database.
      *
      * @return string
      */
     public function indexAction()
     {
-        $studentsData = $this->repository->findAll();
+        $subjectsData = $this->repository->findAll();
 
-        return $this->twig->render('students.html.twig', ['students' => $studentsData]);
+        return $this->twig->render('subjects.html.twig', ['subjects' => $subjectsData]);
     }
 
     /**
-     * Show form for adding a new student and add the new student to the database.
+     * Show form for adding a new subject and add the new subject to the database.
      *
      * @return string
      */
     public function newAction()
     {
-        if (isset($_GET['first_name'])) {
+        if (isset($_GET['name'])) {
             $this->repository->insert(
                 [
-                    'first_name' => $_GET['first_name'],
-                    'last_name' => $_GET['last_name'],
-                    'email' => $_GET['email'],
-                    'tel' => $_GET['tel'],
+                    'name' => $_GET['name'],
                     'department_id' => $_GET['department_id'],
                 ]
             );
@@ -65,13 +62,10 @@ class StudentsController
 
         $departmentsData = $this->departments_repository->findAll();
 
-        return $this->twig->render('students_form.html.twig',
+        return $this->twig->render('subjects_form.html.twig',
             [
                 'id' => '',
-                'first_name' => '',
-                'last_name' => '',
-                'email' => '',
-                'tel' => '',
+                'name' => '',
                 'department_id' => '',
                 'action' => 'new',
                 'button' => 'Create',
@@ -81,19 +75,16 @@ class StudentsController
     }
 
     /**
-     * Show form for updating a student data and update the database.
+     * Show form for updating a subject data and update the database.
      *
      * @return string
      */
     public function editAction()
     {
-        if (isset($_GET['first_name'])) {
+        if (isset($_GET['name'])) {
             $this->repository->update(
                 [
-                    'first_name' => $_GET['first_name'],
-                    'last_name' => $_GET['last_name'],
-                    'email' => $_GET['email'],
-                    'tel' => $_GET['tel'],
+                    'name' => $_GET['name'],
                     'department_id' => $_GET['department_id'],
                     'id' => (int) $_GET['id'],
                 ]
@@ -101,17 +92,14 @@ class StudentsController
 
             return $this->indexAction();
         }
-        $studentData = $this->repository->find((int) $_GET['id']);
+        $subjectData = $this->repository->find((int) $_GET['id']);
         $departmentsData = $this->departments_repository->findAll();
 
-        return $this->twig->render('students_form.html.twig',
+        return $this->twig->render('subjects_form.html.twig',
             [
                 'id' => $_GET['id'],
-                'first_name' => $studentData['first_name'],
-                'last_name' => $studentData['last_name'],
-                'email' => $studentData['email'],
-                'tel' => $studentData['tel'],
-                'department_id' => $studentData['department_id'],
+                'name' => $subjectData['name'],
+                'department_id' => $subjectData['department_id'],
                 'action' => 'edit',
                 'button' => 'Update',
                 'departments' => $departmentsData,
@@ -120,7 +108,7 @@ class StudentsController
     }
 
     /**
-     * Remove a student from the database.
+     * Remove a subject from the database.
      *
      * @return string
      */
@@ -135,7 +123,7 @@ class StudentsController
             return $this->indexAction();
         }
 
-        return $this->twig->render('delete.html.twig', array('item_name' => 'student', 'id' => $_GET['id']));
+        return $this->twig->render('delete.html.twig', array('item_name' => 'subject', 'id' => $_GET['id']));
     }
 
     /**
@@ -148,36 +136,33 @@ class StudentsController
     {
         $departmentsData = $this->departments_repository->findAll();
         $universitiesData = $this->universities_repository->findAll();
-        if (isset($_GET['search_first_name'])) {
-            $studentsData = $this->repository->findBy(
+        if (isset($_GET['search_name'])) {
+            $subjectsData = $this->repository->findBy(
                 [
-                    'search_first_name' => $_GET['search_first_name'],
-                    'search_last_name' => $_GET['search_last_name'],
+                    'search_name' => $_GET['search_name'],
                     'search_department_id' => $_GET['search_department_id'],
                     'search_university_id' => $_GET['search_university_id'],
                 ]
             );
 
-            return $this->twig->render('students_search.html.twig',
+            return $this->twig->render('subjects_search.html.twig',
                 [
-                    'students' => $studentsData,
+                    'subjects' => $subjectsData,
                     'departments' => $departmentsData,
                     'universities' => $universitiesData,
-                    'search_first_name' => $_GET['search_first_name'],
-                    'search_last_name' => $_GET['search_last_name'],
+                    'search_name' => $_GET['search_name'],
                     'search_department_id' => $_GET['search_department_id'],
                     'search_university_id' => $_GET['search_university_id'],
                 ]
             );
         }
 
-        return $this->twig->render('students_search.html.twig',
+        return $this->twig->render('subjects_search.html.twig',
             [
-                'students' => [],
+                'subjects' => [],
                 'departments' => $departmentsData,
                 'universities' => $universitiesData,
-                'search_first_name' => '',
-                'search_last_name' => '',
+                'search_name' => '',
                 'search_department_id' => '',
                 'search_university_id' => '',
             ]

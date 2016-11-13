@@ -53,6 +53,15 @@ class TablesRepository
           ) CHARACTER SET utf8');
         $statementCreateStudentsTable->execute();
 
+        $statementCreateSubjectsTable = $this->connector->getPdo()->prepare('CREATE TABLE IF NOT EXISTS subjects(
+          id INT(10) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+          name VARCHAR(50) NOT NULL,
+          department_id INT(10),
+          CONSTRAINT unique_subject_in_department UNIQUE (name, department_id), 
+          FOREIGN KEY (department_id) REFERENCES departments (id) ON DELETE CASCADE
+          ) CHARACTER SET utf8');
+        $statementCreateSubjectsTable->execute();
+
         return;
     }
 }
