@@ -1,14 +1,14 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <h4>Are you sure you want to delete this department: </h4>
+    <h4>Are you sure you want to delete this {{ item_name }}: </h4>
     <br>
-    <h5>id = {{ department_id }}</h5>
+    <h5>id = {{ id }}</h5>
     <br>
     <form method="GET" action="#">
-        <input type="hidden" name="controller" value="departments">
+        <input type="hidden" name="controller" value="{{ item_name }}s">
         <input type="hidden" name="action" value="delete">
-        <input type="hidden" name="id" value="{{ department_id }}">
+        <input type="hidden" name="id" value="{{ id }}">
         <br>
         <div class="row">
             <input class="btn btn-default" type="submit" name="submit" value="Delete">

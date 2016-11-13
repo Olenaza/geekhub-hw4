@@ -7,11 +7,11 @@
         <input type="hidden" name="controller" value="universities">
         <input type="hidden" name="action" value="search">
         <div class="row">
-            <label for="=name">Name:</label>
+            <label for="=search_name">Name:</label>
             <input class="form-control" type="text" name="search_name" value="{{ search_name }}">
         </div>
         <div class="row">
-            <label for="city">City:</label>
+            <label for="search_city">City:</label>
             <input class="form-control" type="text" name="search_city" value="{{ search_city }}">
         </div>
         <br>
@@ -21,23 +21,5 @@
     </form>
     <br>
     <h3>Search results:</h3>
-    <table class="table table-bordered">
-        <tr>
-            <th>#</th>
-            <th>Name</th>
-            <th>City</th>
-            <th>Site</th>
-            <th>Actions</th>
-        </tr>
-        {% for university in universities %}
-            <tr>
-                <td>{{ university.id }}</td>
-                <td>{{ university.name }}</td>
-                <td>{{ university.city }}</td>
-                <td>{{ university.site }}</td>
-                <td><a href="index.php?controller=universities&action=edit&id={{ university.id }}">edit</a> <a href="index.php?controller=universities&action=delete&id={{ university.id }}">delete</a></td>
-            </tr>
-        {% endfor %}
-    </table>
-    <a href="index.php?controller=universities&action=new">Add a new university</a>
+    {% include "universities_list.html.twig" %}
 {% endblock %}

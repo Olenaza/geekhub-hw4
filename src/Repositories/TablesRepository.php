@@ -25,21 +25,33 @@ class TablesRepository
     public function createTables()
     {
         $statementCreateUniversitiesTable = $this->connector->getPdo()->prepare('CREATE TABLE IF NOT EXISTS universities(
-          id INT(10) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+          id INT(6) NOT NULL AUTO_INCREMENT PRIMARY KEY,
           name VARCHAR(50) NOT NULL,
           city VARCHAR(50) NOT NULL,
           site VARCHAR(50),
-          CONSTRAINT name_unique UNIQUE (name)) CHARACTER SET utf8');
-
+          UNIQUE (name)
+          ) CHARACTER SET utf8');
         $statementCreateUniversitiesTable->execute();
 
         $statementCreateDepartmentsTable = $this->connector->getPdo()->prepare('CREATE TABLE IF NOT EXISTS departments(
           id INT(10) NOT NULL AUTO_INCREMENT PRIMARY KEY,
           name VARCHAR(50) NOT NULL,
           university_id INT(10) NOT NULL,
-          CONSTRAINT name_university_unique UNIQUE (name, university_id)) CHARACTER SET utf8');
-
+          CONSTRAINT unique_department_in_university UNIQUE (name, university_id),
+          FOREIGN KEY (university_id) REFERENCES universities (id) ON DELETE CASCADE
+          ) CHARACTER SET utf8');
         $statementCreateDepartmentsTable->execute();
+
+        $statementCreateStudentsTable = $this->connector->getPdo()->prepare('CREATE TABLE IF NOT EXISTS students(
+          id INT(10) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+          first_name VARCHAR(50) NOT NULL,
+          last_name VARCHAR(50) NOT NULL,
+          email VARCHAR(50),
+          tel VARCHAR(50),
+          department_id INT(10),
+          CONSTRAINT unique_student UNIQUE (first_name, last_name)
+          ) CHARACTER SET utf8');
+        $statementCreateStudentsTable->execute();
 
         return;
     }

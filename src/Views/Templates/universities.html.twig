@@ -3,23 +3,5 @@
 {% block content %}
     <h1>Universities</h1>
     <hr>
-    <table class="table table-bordered">
-        <tr>
-            <th>#</th>
-            <th>Name</th>
-            <th>City</th>
-            <th>Site</th>
-            <th>Actions</th>
-        </tr>
-        {% for university in universities %}
-            <tr>
-                <td>{{ university.id }}</td>
-                <td>{{ university.name }}</td>
-                <td>{{ university.city }}</td>
-                <td>{{ university.site }}</td>
-                <td><a href="index.php?controller=universities&action=edit&id={{ university.id }}">edit</a> <a href="index.php?controller=universities&action=delete&id={{ university.id }}">delete</a></td>
-            </tr>
-        {% endfor %}
-    </table>
-    <a href="index.php?controller=universities&action=new">Add a new university</a>
+    {% include "universities_list.html.twig" %}
 {% endblock %}

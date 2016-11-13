@@ -120,29 +120,31 @@ class DepartmentsController
             return $this->indexAction();
         }
 
-        return $this->twig->render('departments_delete.html.twig', array('department_id' => $_GET['id']));
+        return $this->twig->render('delete.html.twig', array('item_name' => 'department', 'id' => $_GET['id']));
     }
 
     /**
-     * Show form for searching by full name and/or university and/or city or their parts and show search results.
+     * Show form for searching by full name or its part and/or by university and show search results.
      *
      * @return string
      */
     public function searchAction()
     {
+        $universitiesData = $this->universities_repository->findAll();
         if (isset($_GET['search_name'])) {
             $departmentsData = $this->repository->findBy(
                 [
                     'search_name' => $_GET['search_name'],
-                    'search_university' => $_GET['search_university'],
+                    'search_university_id' => $_GET['search_university_id'],
                 ]
             );
 
             return $this->twig->render('departments_search.html.twig',
                 [
                     'departments' => $departmentsData,
+                    'universities' => $universitiesData,
                     'search_name' => $_GET['search_name'],
-                    'search_university' => $_GET['search_university'],
+                    'search_university_id' => $_GET['search_university_id'],
                 ]
             );
         }
@@ -150,8 +152,9 @@ class DepartmentsController
         return $this->twig->render('departments_search.html.twig',
             [
                 'departments' => [],
+                'universities' => $universitiesData,
                 'search_name' => '',
-                'search_university' => '',
+                'search_university_id' => '',
             ]
         );
     }

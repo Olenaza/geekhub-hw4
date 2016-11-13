@@ -1,0 +1,17 @@
+<table class="table table-bordered">
+    <tr>
+        <th>#</th>
+        <th>Name</th>
+        <th>University</th>
+        <th>Actions</th>
+    </tr>
+    {% for department in departments %}
+        <tr>
+            <td>{{ department.id }}</td>
+            <td>{{ department.name }}</td>
+            <td>{{ department.university_name }}</td>
+            <td><a href="index.php?controller=departments&action=edit&id={{ department.id }}">edit</a> <a href="index.php?controller=departments&action=delete&id={{ department.id }}">delete</a></td>
+        </tr>
+    {% endfor %}
+</table>
+<a href="index.php?controller=departments&action=new">Add a new department</a>

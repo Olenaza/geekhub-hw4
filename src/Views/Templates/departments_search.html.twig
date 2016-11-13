@@ -7,12 +7,22 @@
         <input type="hidden" name="controller" value="departments">
         <input type="hidden" name="action" value="search">
         <div class="row">
-            <label for="=name">Name:</label>
+            <label for="=search_name">Name:</label>
             <input class="form-control" type="text" name="search_name" value="{{ search_name }}">
         </div>
+        <br>
         <div class="row">
-            <label for="city">University:</label>
-            <input class="form-control" type="text" name="search_university" value="{{ search_university }}">
+            <label for="search_university_id">University:</label>
+            <select name="search_university_id">
+                <option disabled selected value> -- All -- </option>
+                {% for university in universities %}
+                    {% if (university.id == search_university_id) %}
+                        <option value="{{ university.id }}" selected>{{ university.name }}</option>
+                    {% else %}
+                        <option value="{{ university.id }}">{{ university.name }}</option>
+                    {% endif %}
+                {% endfor %}
+            </select>
         </div>
         <br>
         <div class="row">
@@ -21,21 +31,5 @@
     </form>
     <br>
     <h3>Search results:</h3>
-    <table class="table table-bordered">
-        <tr>
-            <th>#</th>
-            <th>Name</th>
-            <th>University</th>
-            <th>Actions</th>
-        </tr>
-        {% for department in departments %}
-            <tr>
-                <td>{{ department.id }}</td>
-                <td>{{ department.name }}</td>
-                <td>{{ department.university_name }}</td>
-                <td><a href="index.php?controller=departments&action=edit&id={{ department.id }}">edit</a> <a href="index.php?controller=departments&action=delete&id={{ department.id }}">delete</a></td>
-            </tr>
-        {% endfor %}
-    </table>
-    <a href="index.php?controller=departments&action=new">Add a new department</a>
+    {% include "departments_list.html.twig" %}
 {% endblock %}

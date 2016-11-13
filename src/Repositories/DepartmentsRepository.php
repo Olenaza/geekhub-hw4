@@ -19,7 +19,14 @@ class DepartmentsRepository implements RepositoryInterface
 
     public function findAll($limit = 1000, $offset = 0)
     {
-        $statement = $this->connector->getPdo()->prepare('SELECT departments.id AS dept_id, departments.name AS dept_name, departments.university_id AS university_id, universities.name AS university_name FROM departments LEFT JOIN universities ON departments.university_id=universities.id LIMIT :limit OFFSET :offset');
+        $statement = $this->connector->getPdo()->prepare(
+            'SELECT departments.id AS dept_id, 
+              departments.name AS dept_name, 
+              departments.university_id AS university_id, 
+              universities.name AS university_name 
+              FROM departments LEFT JOIN universities ON departments.university_id=universities.id 
+              LIMIT :limit OFFSET :offset'
+        );
         $statement->bindValue(':limit', (int) $limit, \PDO::PARAM_INT);
         $statement->bindValue(':offset', (int) $offset, \PDO::PARAM_INT);
         $statement->execute();
@@ -52,7 +59,15 @@ class DepartmentsRepository implements RepositoryInterface
 
     public function find($id)
     {
-        $statement = $this->connector->getPdo()->prepare('SELECT departments.id AS dept_id, departments.name AS dept_name, departments.university_id AS university_id, universities.name AS university_name FROM departments LEFT JOIN universities ON departments.university_id=universities.id WHERE departments.id = :id LIMIT 1');
+        $statement = $this->connector->getPdo()->prepare(
+            'SELECT departments.id AS dept_id, 
+              departments.name AS dept_name, 
+              departments.university_id AS university_id, 
+              universities.name AS university_name 
+              FROM departments LEFT JOIN universities ON departments.university_id=universities.id 
+              WHERE departments.id = :id 
+              LIMIT 1'
+        );
         $statement->bindValue(':id', (int) $id, \PDO::PARAM_INT);
         $statement->execute();
         $departmentsData = $this->fetchDepartmentsData($statement);
@@ -80,12 +95,25 @@ class DepartmentsRepository implements RepositoryInterface
 
     public function findBy($criteria = [])
     {
-        $search_name = '%'.$criteria['search_name'].'%';
-        $search_university = '%'.$criteria['search_university'].'%';
+        $selectList = 'SELECT departments.id AS dept_id, 
+                  departments.name AS dept_name, 
+                  departments.university_id AS university_id, 
+                  universities.name AS university_name 
+                  FROM departments LEFT JOIN universities ON departments.university_id=universities.id 
+                  WHERE departments.name LIKE :name ';
 
-        $statement = $this->connector->getPdo()->prepare('SELECT departments.id AS dept_id, departments.name AS dept_name, departments.university_id AS university_id, universities.name AS university_name FROM departments LEFT JOIN universities ON departments.university_id=universities.id WHERE departments.name LIKE :name AND universities.name LIKE :university LIMIT 1000');
-        $statement->bindValue(':name', $search_name, \PDO::PARAM_STR);
-        $statement->bindValue(':university', $search_university, \PDO::PARAM_STR);
+        if (empty($criteria['search_university_id'])) {
+            $selectList .= 'LIMIT 1000';
+            $statement = $this->connector->getPdo()->prepare($selectList);
+        } else {
+            $selectList .= 'AND departments.university_id = :university_id LIMIT 1000';
+            $statement = $this->connector->getPdo()->prepare($selectList);
+            $statement->bindValue(':university_id', $criteria['search_university_id'], \PDO::PARAM_INT);
+        }
+
+        $searchName = '%'.$criteria['search_name'].'%';
+        $statement->bindValue(':name', $searchName, \PDO::PARAM_STR);
+
         $statement->execute();
 
         return $this->fetchDepartmentsData($statement);

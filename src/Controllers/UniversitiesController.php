@@ -116,7 +116,7 @@ class UniversitiesController
             return $this->indexAction();
         }
 
-        return $this->twig->render('universities_delete.html.twig', array('university_id' => $_GET['id']));
+        return $this->twig->render('delete.html.twig', array('item_name' => 'universitie', 'id' => $_GET['id']));
     }
 
     /**

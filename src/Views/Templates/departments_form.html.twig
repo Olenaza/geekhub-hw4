@@ -8,12 +8,12 @@
         <input type="hidden" name="id" value="{{ id }}">
         <div class="row">
             <label for="=name">Name:</label>
-            <input class="form-control" type="text" id="name" name="name" value="{{ name }}">
+            <input class="form-control" type="text" id="name" name="name" value="{{ name }}" required>
         </div>
         <br>
         <div class="row">
-            <label for="city">University:</label>
-            <select name="university_id">
+            <label for="university_id">University:</label>
+            <select name="university_id" required>
                 {% for university in universities %}
                     {% if (university.id == university_id) %}
                         <option value="{{ university.id }}" selected>{{ university.name }}</option>
