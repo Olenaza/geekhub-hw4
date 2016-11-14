@@ -39,7 +39,7 @@ class StudentsController
     {
         $studentsData = $this->repository->findAll();
 
-        return $this->twig->render('students.html.twig', ['students' => $studentsData]);
+        return $this->twig->render('Students/students.html.twig', ['students' => $studentsData]);
     }
 
     /**
@@ -65,7 +65,7 @@ class StudentsController
 
         $departmentsData = $this->departments_repository->findAll();
 
-        return $this->twig->render('students_form.html.twig',
+        return $this->twig->render('Students/students_form.html.twig',
             [
                 'id' => '',
                 'first_name' => '',
@@ -104,7 +104,7 @@ class StudentsController
         $studentData = $this->repository->find((int) $_GET['id']);
         $departmentsData = $this->departments_repository->findAll();
 
-        return $this->twig->render('students_form.html.twig',
+        return $this->twig->render('Students/students_form.html.twig',
             [
                 'id' => $_GET['id'],
                 'first_name' => $studentData['first_name'],
@@ -158,7 +158,7 @@ class StudentsController
                 ]
             );
 
-            return $this->twig->render('students_search.html.twig',
+            return $this->twig->render('Students/students_search.html.twig',
                 [
                     'students' => $studentsData,
                     'departments' => $departmentsData,
@@ -171,7 +171,7 @@ class StudentsController
             );
         }
 
-        return $this->twig->render('students_search.html.twig',
+        return $this->twig->render('Students/students_search.html.twig',
             [
                 'students' => [],
                 'departments' => $departmentsData,

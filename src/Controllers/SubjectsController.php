@@ -15,7 +15,7 @@ class SubjectsController
     private $twig;
 
     /**
-     * StudentsController constructor.
+     * SubjectsController constructor.
      *
      * @param $connector
      */
@@ -39,7 +39,7 @@ class SubjectsController
     {
         $subjectsData = $this->repository->findAll();
 
-        return $this->twig->render('subjects.html.twig', ['subjects' => $subjectsData]);
+        return $this->twig->render('Subjects/subjects.html.twig', ['subjects' => $subjectsData]);
     }
 
     /**
@@ -62,7 +62,7 @@ class SubjectsController
 
         $departmentsData = $this->departments_repository->findAll();
 
-        return $this->twig->render('subjects_form.html.twig',
+        return $this->twig->render('Subjects/subjects_form.html.twig',
             [
                 'id' => '',
                 'name' => '',
@@ -95,7 +95,7 @@ class SubjectsController
         $subjectData = $this->repository->find((int) $_GET['id']);
         $departmentsData = $this->departments_repository->findAll();
 
-        return $this->twig->render('subjects_form.html.twig',
+        return $this->twig->render('Subjects/subjects_form.html.twig',
             [
                 'id' => $_GET['id'],
                 'name' => $subjectData['name'],
@@ -117,7 +117,7 @@ class SubjectsController
         if (isset($_GET['submit'])) {
             if ($_GET['submit'] == 'Delete') {
                 $id = (int) $_GET['id'];
-                $this->repository->remove(['id' => $id]);
+                $this->repository->remove(['student_id' => $id]);
             }
 
             return $this->indexAction();
@@ -145,7 +145,7 @@ class SubjectsController
                 ]
             );
 
-            return $this->twig->render('subjects_search.html.twig',
+            return $this->twig->render('Subjects/subjects_search.html.twig',
                 [
                     'subjects' => $subjectsData,
                     'departments' => $departmentsData,
@@ -157,7 +157,7 @@ class SubjectsController
             );
         }
 
-        return $this->twig->render('subjects_search.html.twig',
+        return $this->twig->render('Subjects/subjects_search.html.twig',
             [
                 'subjects' => [],
                 'departments' => $departmentsData,

@@ -12,7 +12,11 @@
             <td>{{ subject.name }}</td>
             <td>{{ subject.department_name }}</td>
             <td>{{ subject.university_name }}</td>
-            <td><a href="index.php?controller=subjects&action=edit&id={{ subject.id }}">edit</a> <a href="index.php?controller=subjects&action=delete&id={{ subject.id }}">delete</a></td>
+            <td>
+                <a href="index.php?controller=subjects&action=edit&id={{ subject.id }}">edit</a>
+                <a href="index.php?controller=subjects&action=delete&id={{ subject.id }}">delete</a>
+                <a href="index.php?controller=registrations&action=new&id={{ subject.id }}">register students</a>
+            </td>
         </tr>
     {% endfor %}
 </table>

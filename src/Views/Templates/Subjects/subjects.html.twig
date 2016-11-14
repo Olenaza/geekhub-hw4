@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Subjects</h1>
+    <hr>
+    {% include "Subjects/subjects_list.html.twig" %}
+    <br>
+    <br>
+    <a href="index.php?controller=registrations&action=index">Show all registrations</a>
+{% endblock %}

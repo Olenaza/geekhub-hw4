@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h2>Register students from {{ department_name }} department for the course {{ subject_name }}</h2>
+    <hr>
+    <form method="GET" action="#">
+        <input type="hidden" name="controller" value="registrations">
+        <input type="hidden" name="action" value="new">
+        <input type="hidden" name="subject_id" value="{{ subject_id }}">
+        <h4>
+            {% for student in students %}
+                <div class="row">
+                    {{ student.first_name }} {{ student.last_name }}  <input type="checkbox" name="registration[]" id="registration" value="{{ student.id }}">
+                </div>
+                <hr>
+            {% endfor %}
+        </h4>
+        <br>
+        <div class="row">
+            <input class="btn btn-default" type="submit" value="Register">
+        </div>
+    </form>
+{% endblock %}

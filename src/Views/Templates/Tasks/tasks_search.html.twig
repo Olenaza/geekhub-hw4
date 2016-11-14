@@ -1,10 +1,10 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <h1>Search Departments</h1>
+    <h1>Search Tasks</h1>
     <hr>
     <form method="GET" action="#">
-        <input type="hidden" name="controller" value="departments">
+        <input type="hidden" name="controller" value="tasks">
         <input type="hidden" name="action" value="search">
         <div class="row">
             <label for="=search_name">Name:</label>
@@ -12,14 +12,14 @@
         </div>
         <br>
         <div class="row">
-            <label for="search_university_id">University:</label>
-            <select name="search_university_id">
+            <label for="search_subject_id">Subject:</label>
+            <select name="search_subject_id">
                 <option disabled selected value> -- All -- </option>
-                {% for university in universities %}
-                    {% if (university.id == search_university_id) %}
-                        <option value="{{ university.id }}" selected>{{ university.name }}</option>
+                {% for subject in subjects %}
+                    {% if (subject.id == search_subject_id) %}
+                        <option value="{{ subject.id }}" selected>{{ subject.name }} (id {{ subject.id }})</option>
                     {% else %}
-                        <option value="{{ university.id }}">{{ university.name }}</option>
+                        <option value="{{ subject.id }}">{{ subject.name }} (id {{ subject.id }})</option>
                     {% endif %}
                 {% endfor %}
             </select>
@@ -31,5 +31,5 @@
     </form>
     <br>
     <h3>Search results:</h3>
-    {% include "departments_list.html.twig" %}
+    {% include "Tasks/tasks_list.html.twig" %}
 {% endblock %}

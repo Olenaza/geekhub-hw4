@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h4>Are you sure you want to remove this registration: </h4>
+    <br>
+    <h5>Student ID = {{ student_id }}</h5>
+    <br>
+    <form method="GET" action="#">
+        <input type="hidden" name="controller" value="registrations">
+        <input type="hidden" name="action" value="delete">
+        <input type="hidden" name="student_id" value="{{ student_id }}">
+        <input type="hidden" name="subject_id" value="{{ subject_id }}">
+        <br>
+        <div class="row">
+            <input class="btn btn-default" type="submit" name="submit" value="Remove">
+            <input class="btn btn-default" type="submit" name="submit" value="Cancel">
+        </div>
+    </form>
+{% endblock %}

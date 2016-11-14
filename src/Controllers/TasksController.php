@@ -2,22 +2,25 @@
 
 namespace Controllers;
 
-use Repositories\UniversitiesRepository;
+use Repositories\TasksRepository;
+use Repositories\SubjectsRepository;
 
-class UniversitiesController
+class TasksController
 {
     private $repository;
+    private $subjects_repository;
     private $loader;
     private $twig;
 
     /**
-     * UniversitiesController constructor.
+     * TasksController constructor.
      *
      * @param $connector
      */
     public function __construct($connector)
     {
-        $this->repository = new UniversitiesRepository($connector);
+        $this->repository = new TasksRepository($connector);
+        $this->subjects_repository = new SubjectsRepository($connector);
         $this->loader = new \Twig_Loader_Filesystem('src/Views/Templates/');
         $this->twig = new \Twig_Environment($this->loader, array(
             'cache' => false,
@@ -25,19 +28,19 @@ class UniversitiesController
     }
 
     /**
-     * Show all universities in the database.
+     * Show all tasks in the database.
      *
      * @return string
      */
     public function indexAction()
     {
-        $universitiesData = $this->repository->findAll();
+        $tasksData = $this->repository->findAll();
 
-        return $this->twig->render('Universities/universities.html.twig', ['universities' => $universitiesData]);
+        return $this->twig->render('Tasks/tasks.html.twig', ['tasks' => $tasksData]);
     }
 
     /**
-     * Show form for adding a new university and add the new university to the database.
+     * Show form for adding a new task and add the new task to the database.
      *
      * @return string
      */
@@ -47,28 +50,29 @@ class UniversitiesController
             $this->repository->insert(
                 [
                     'name' => $_GET['name'],
-                    'city' => $_GET['city'],
-                    'site' => $_GET['site'],
+                    'subject_id' => $_GET['subject_id'],
                 ]
             );
 
             return $this->indexAction();
         }
 
-        return $this->twig->render('Universities/universities_form.html.twig',
+        $subjectsData = $this->subjects_repository->findAll();
+
+        return $this->twig->render('Tasks/tasks_form.html.twig',
             [
                 'id' => '',
                 'name' => '',
-                'city' => '',
-                'site' => '',
+                'subject_id' => '',
                 'action' => 'new',
                 'button' => 'Create',
+                'subjects' => $subjectsData,
             ]
         );
     }
 
     /**
-     * Show form for updating a university data and update the database.
+     * Show form for updating a task data and update the database.
      *
      * @return string
      */
@@ -78,30 +82,30 @@ class UniversitiesController
             $this->repository->update(
                 [
                     'name' => $_GET['name'],
-                    'city' => $_GET['city'],
-                    'site' => $_GET['site'],
+                    'subject_id' => $_GET['subject_id'],
                     'id' => (int) $_GET['id'],
                 ]
             );
 
             return $this->indexAction();
         }
-        $universitiesData = $this->repository->find((int) $_GET['id']);
+        $taskData = $this->repository->find((int) $_GET['id']);
+        $subjectsData = $this->subjects_repository->findAll();
 
-        return $this->twig->render('Universities/universities_form.html.twig',
+        return $this->twig->render('Tasks/tasks_form.html.twig',
             [
                 'id' => $_GET['id'],
-                'name' => $universitiesData['name'],
-                'city' => $universitiesData['city'],
-                'site' => $universitiesData['site'],
+                'name' => $taskData['name'],
+                'subject_id' => $taskData['subject_id'],
                 'action' => 'edit',
                 'button' => 'Update',
+                'subjects' => $subjectsData,
             ]
         );
     }
 
     /**
-     * Remove a university from the database.
+     * Remove a task from the database.
      *
      * @return string
      */
@@ -116,38 +120,42 @@ class UniversitiesController
             return $this->indexAction();
         }
 
-        return $this->twig->render('delete.html.twig', array('item_name' => 'universitie', 'id' => $_GET['id']));
+        return $this->twig->render('delete.html.twig', array('item_name' => 'task', 'id' => $_GET['id']));
     }
 
     /**
-     * Show form for searching by full name and/or city or their parts and show search results.
+     * Show form for searching by full name or its parts and/or by subject
+     * and show search results.
      *
      * @return string
      */
     public function searchAction()
     {
+        $subjectsData = $this->subjects_repository->findAll();
         if (isset($_GET['search_name'])) {
-            $universitiesData = $this->repository->findBy(
+            $tasksData = $this->repository->findBy(
                 [
                     'search_name' => $_GET['search_name'],
-                    'search_city' => $_GET['search_city'],
+                    'search_subject_id' => $_GET['search_subject_id'],
                 ]
             );
 
-            return $this->twig->render('Universities/universities_search.html.twig',
+            return $this->twig->render('Tasks/tasks_search.html.twig',
                 [
-                    'universities' => $universitiesData,
+                    'tasks' => $tasksData,
+                    'subjects' => $subjectsData,
                     'search_name' => $_GET['search_name'],
-                    'search_city' => $_GET['search_city'],
+                    'search_subject_id' => $_GET['search_subject_id'],
                 ]
             );
         }
 
-        return $this->twig->render('Universities/universities_search.html.twig',
+        return $this->twig->render('Tasks/tasks_search.html.twig',
             [
-                'universities' => [],
+                'tasks' => [],
+                'subjects' => $subjectsData,
                 'search_name' => '',
-                'search_city' => '',
+                'search_subject_id' => '',
             ]
         );
     }

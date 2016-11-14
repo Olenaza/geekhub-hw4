@@ -24,25 +24,23 @@ class TablesRepository
      */
     public function createTables()
     {
-        $statementCreateUniversitiesTable = $this->connector->getPdo()->prepare('CREATE TABLE IF NOT EXISTS universities(
+        $this->connector->getPdo()->query('CREATE TABLE IF NOT EXISTS universities(
           id INT(6) NOT NULL AUTO_INCREMENT PRIMARY KEY,
           name VARCHAR(50) NOT NULL,
           city VARCHAR(50) NOT NULL,
           site VARCHAR(50),
           UNIQUE (name)
           ) CHARACTER SET utf8');
-        $statementCreateUniversitiesTable->execute();
 
-        $statementCreateDepartmentsTable = $this->connector->getPdo()->prepare('CREATE TABLE IF NOT EXISTS departments(
+        $this->connector->getPdo()->query('CREATE TABLE IF NOT EXISTS departments(
           id INT(10) NOT NULL AUTO_INCREMENT PRIMARY KEY,
           name VARCHAR(50) NOT NULL,
           university_id INT(10) NOT NULL,
           CONSTRAINT unique_department_in_university UNIQUE (name, university_id),
           FOREIGN KEY (university_id) REFERENCES universities (id) ON DELETE CASCADE
           ) CHARACTER SET utf8');
-        $statementCreateDepartmentsTable->execute();
 
-        $statementCreateStudentsTable = $this->connector->getPdo()->prepare('CREATE TABLE IF NOT EXISTS students(
+        $this->connector->getPdo()->query('CREATE TABLE IF NOT EXISTS students(
           id INT(10) NOT NULL AUTO_INCREMENT PRIMARY KEY,
           first_name VARCHAR(50) NOT NULL,
           last_name VARCHAR(50) NOT NULL,
@@ -51,16 +49,30 @@ class TablesRepository
           department_id INT(10),
           CONSTRAINT unique_student UNIQUE (first_name, last_name)
           ) CHARACTER SET utf8');
-        $statementCreateStudentsTable->execute();
 
-        $statementCreateSubjectsTable = $this->connector->getPdo()->prepare('CREATE TABLE IF NOT EXISTS subjects(
+        $this->connector->getPdo()->query('CREATE TABLE IF NOT EXISTS subjects(
           id INT(10) NOT NULL AUTO_INCREMENT PRIMARY KEY,
           name VARCHAR(50) NOT NULL,
           department_id INT(10),
-          CONSTRAINT unique_subject_in_department UNIQUE (name, department_id), 
+          CONSTRAINT unique_subject_with_department UNIQUE (name, department_id), 
           FOREIGN KEY (department_id) REFERENCES departments (id) ON DELETE CASCADE
           ) CHARACTER SET utf8');
-        $statementCreateSubjectsTable->execute();
+
+        $this->connector->getPdo()->query('CREATE TABLE IF NOT EXISTS tasks(
+          id INT(10) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+          name VARCHAR(50) NOT NULL,
+          subject_id INT(10),
+          CONSTRAINT unique_task_with_subject UNIQUE (name, subject_id), 
+          FOREIGN KEY (subject_id) REFERENCES subjects (id) ON DELETE CASCADE
+          ) CHARACTER SET utf8');
+
+        $this->connector->getPdo()->query('CREATE TABLE IF NOT EXISTS registrations(
+          student_id INT(10) NOT NULL, 
+          subject_id INT(10) NOT NULL, 
+          PRIMARY KEY (student_id, subject_id),
+          FOREIGN KEY (student_id) REFERENCES students (id) ON DELETE CASCADE ON UPDATE CASCADE, 
+          FOREIGN KEY (subject_id) REFERENCES subjects (id) ON DELETE CASCADE ON UPDATE CASCADE
+          ) CHARACTER SET utf8');
 
         return;
     }
