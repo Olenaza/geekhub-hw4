@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Search Universities</h1>
+    <hr>
+    <form method="GET" action="#">
+        <input type="hidden" name="controller" value="universities">
+        <input type="hidden" name="action" value="search">
+        <div class="row">
+            <label for="=search_name">Name:</label>
+            <input class="form-control" type="text" name="search_name" value="{{ search_name }}">
+        </div>
+        <div class="row">
+            <label for="search_city">City:</label>
+            <input class="form-control" type="text" name="search_city" value="{{ search_city }}">
+        </div>
+        <br>
+        <div class="row">
+            <input class="btn btn-default" type="submit" value="Search">
+        </div>
+    </form>
+    <br>
+    <h3>Search results:</h3>
+    {% include "Universities/universities_list.html.twig" %}
+{% endblock %}

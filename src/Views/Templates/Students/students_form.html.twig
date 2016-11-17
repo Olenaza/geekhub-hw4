@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Students Form</h1>
+    <form method="GET" action="#">
+        <input type="hidden" name="controller" value="students">
+        <input type="hidden" name="action" value="{{ action }}">
+        <input type="hidden" name="id" value="{{ id }}">
+        <div class="row">
+            <label for="=first_name">First Name:</label>
+            <input class="form-control" type="text" id="first_name" name="first_name" value="{{ first_name }}" required>
+        </div>
+        <br>
+        <div class="row">
+            <label for="=last_name">Last Name:</label>
+            <input class="form-control" type="text" id="last_name" name="last_name" value="{{ last_name }}" required>
+        </div>
+        <br>
+        <div class="row">
+            <label for="=email">E-mail:</label>
+            <input class="form-control" type="text" id="email" name="email" value="{{ email }}">
+        </div>
+        <br>
+        <div class="row">
+            <label for="=tel">Telephone Number:</label>
+            <input class="form-control" type="text" id="tel" name="tel" value="{{ tel }}">
+        </div>
+        <br>
+        <div class="row">
+            <label for="department_id">Department:</label>
+            <select name="department_id" required>
+                {% for department in departments %}
+                    {% if (department.id == department_id) %}
+                        <option value="{{ department.id }}" selected>{{ department.name }}</option>
+                    {% else %}
+                        <option value="{{ department.id }}">{{ department.name }}</option>
+                    {% endif %}
+                {% endfor %}
+            </select>
+        </div>
+        <br>
+        <div class="row">
+            <input class="btn btn-default" type="submit" value="{{ button }}">
+        </div>
+    </form>
+{% endblock %}

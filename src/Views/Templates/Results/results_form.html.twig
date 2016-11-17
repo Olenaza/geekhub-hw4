@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h2>Input results of the students registered for the course {{ subject_name }}</h2>
+    <h2>task id {{ task_id }}: {{ task_name }}</h2>
+    <hr>
+    <form method="GET" action="#">
+        <input type="hidden" name="controller" value="results">
+        <input type="hidden" name="action" value="new">
+        <input type="hidden" name="task_id" value="{{ task_id }}">
+        <input type="hidden" name="subject_id" value="{{ subject_id }}">
+        <h4>
+            {% for registration in registrations %}
+                <div class="row">
+                    {{ registration.student_name }} <input type="checkbox" name="{{ registration.student_id }}" value="1">
+                </div>
+                <hr>
+            {% endfor %}
+        </h4>
+        <br>
+        <div class="row">
+            <input class="btn btn-default" type="submit" value="Save">
+        </div>
+    </form>
+{% endblock %}

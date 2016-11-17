@@ -1,0 +1,16 @@
+<table class="table table-bordered">
+    <tr>
+        <th>Name</th>
+        <th>Subject</th>
+        <th>Actions</th>
+    </tr>
+    {% for registration in registrations %}
+        <tr>
+            <td>{{ registration.student_name }}</td>
+            <td>{{ registration.subject_name }}</td>
+            <td>
+                <a href="index.php?controller=registrations&action=delete&student_id={{ registration.student_id }}&subject_id={{ registration.subject_id }}">remove</a>
+            </td>
+        </tr>
+    {% endfor %}
+</table>

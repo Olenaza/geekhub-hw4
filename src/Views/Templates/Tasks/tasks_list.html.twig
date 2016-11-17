@@ -1,0 +1,22 @@
+<table class="table table-bordered">
+    <tr>
+        <th>#</th>
+        <th>Name</th>
+        <th>Subject</th>
+        <th>Actions</th>
+    </tr>
+    {% for task in tasks %}
+        <tr>
+            <td>{{ task.id }}</td>
+            <td>{{ task.name }}</td>
+            <td>{{ task.subject_name }}</td>
+            <td>
+                <a href="index.php?controller=tasks&action=edit&id={{ task.id }}">edit</a>
+                <a href="index.php?controller=tasks&action=delete&id={{ task.id }}">delete</a>
+                <a href="index.php?controller=results&action=new&id={{ task.id }}">add results</a>
+                <a href="index.php?controller=results&action=search&id={{ task.id }}">show results</a>
+            </td>
+        </tr>
+    {% endfor %}
+</table>
+<a href="index.php?controller=tasks&action=new">Add a new task</a>

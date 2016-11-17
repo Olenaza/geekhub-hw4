@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Search Students</h1>
+    <hr>
+    <form method="GET" action="#">
+        <input type="hidden" name="controller" value="students">
+        <input type="hidden" name="action" value="search">
+        <div class="row">
+            <label for="=search_first_name">First Name:</label>
+            <input class="form-control" type="text" name="search_first_name" value="{{ search_first_name }}">
+        </div>
+        <div class="row">
+            <label for="=search_last_name">Last Name:</label>
+            <input class="form-control" type="text" name="search_last_name" value="{{ search_last_name }}">
+        </div>
+        <br>
+        <div class="row">
+            <label for="search_department_id">Department:</label>
+            <select name="search_department_id">
+                <option disabled selected value> -- All -- </option>
+                {% for department in departments %}
+                    {% if (department.id == search_department_id) %}
+                        <option value="{{ department.id }}" selected>{{ department.name }} with {{ department.university_name }}</option>
+                    {% else %}
+                        <option value="{{ department.id }}">{{ department.name }} with {{ department.university_name }}</option>
+                    {% endif %}
+                {% endfor %}
+            </select>
+        </div>
+        <br>
+        <div class="row">
+            <label for="search_university_id">University:</label>
+            <select name="search_university_id">
+                <option disabled selected value> -- All -- </option>
+                {% for university in universities %}
+                    {% if (university.id == search_university_id) %}
+                        <option value="{{ university.id }}" selected>{{ university.name }}</option>
+                    {% else %}
+                        <option value="{{ university.id }}">{{ university.name }}</option>
+                    {% endif %}
+                {% endfor %}
+            </select>
+        </div>
+        <br>
+        <div class="row">
+            <input class="btn btn-default" type="submit" value="Search">
+        </div>
+    </form>
+    <br>
+    <h3>Search results:</h3>
+    {% include "Students/students_list.html.twig" %}
+{% endblock %}

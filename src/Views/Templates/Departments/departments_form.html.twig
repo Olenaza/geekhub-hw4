@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Departments Form</h1>
+    <form method="GET" action="#">
+        <input type="hidden" name="controller" value="departments">
+        <input type="hidden" name="action" value="{{ action }}">
+        <input type="hidden" name="id" value="{{ id }}">
+        <div class="row">
+            <label for="=name">Name:</label>
+            <input class="form-control" type="text" id="name" name="name" value="{{ name }}" required>
+        </div>
+        <br>
+        <div class="row">
+            <label for="university_id">University:</label>
+            <select name="university_id" required>
+                {% for university in universities %}
+                    {% if (university.id == university_id) %}
+                        <option value="{{ university.id }}" selected>{{ university.name }}</option>
+                    {% else %}
+                        <option value="{{ university.id }}">{{ university.name }}</option>
+                    {% endif %}
+                {% endfor %}
+            </select>
+        </div>
+        <br>
+        <div class="row">
+            <input class="btn btn-default" type="submit" value="{{ button }}">
+        </div>
+    </form>
+{% endblock %}

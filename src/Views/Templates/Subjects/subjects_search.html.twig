@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Search Subjects</h1>
+    <hr>
+    <form method="GET" action="#">
+        <input type="hidden" name="controller" value="subjects">
+        <input type="hidden" name="action" value="search">
+        <div class="row">
+            <label for="=search_name">Name:</label>
+            <input class="form-control" type="text" name="search_name" value="{{ search_name }}">
+        </div>
+        <br>
+        <div class="row">
+            <label for="search_department_id">Department:</label>
+            <select name="search_department_id">
+                <option disabled selected value> -- All -- </option>
+                {% for department in departments %}
+                    {% if (department.id == search_department_id) %}
+                        <option value="{{ department.id }}" selected>{{ department.name }} with {{ department.university_name }}</option>
+                    {% else %}
+                        <option value="{{ department.id }}">{{ department.name }} with {{ department.university_name }}</option>
+                    {% endif %}
+                {% endfor %}
+            </select>
+        </div>
+        <br>
+        <div class="row">
+            <label for="search_university_id">University:</label>
+            <select name="search_university_id">
+                <option disabled selected value> -- All -- </option>
+                {% for university in universities %}
+                    {% if (university.id == search_university_id) %}
+                        <option value="{{ university.id }}" selected>{{ university.name }}</option>
+                    {% else %}
+                        <option value="{{ university.id }}">{{ university.name }}</option>
+                    {% endif %}
+                {% endfor %}
+            </select>
+        </div>
+        <br>
+        <div class="row">
+            <input class="btn btn-default" type="submit" value="Search">
+        </div>
+    </form>
+    <br>
+    <h3>Search results:</h3>
+    {% include "Subjects/subjects_list.html.twig" %}
+{% endblock %}

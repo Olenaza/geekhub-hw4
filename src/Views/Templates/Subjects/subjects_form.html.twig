@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Subjects Form</h1>
+    <form method="GET" action="#">
+        <input type="hidden" name="controller" value="subjects">
+        <input type="hidden" name="action" value="{{ action }}">
+        <input type="hidden" name="id" value="{{ id }}">
+        <div class="row">
+            <label for="=name">Name:</label>
+            <input class="form-control" type="text" id="name" name="name" value="{{ name }}" required>
+        </div>
+        <br>
+        <div class="row">
+            <label for="department_id">Department:</label>
+            <select name="department_id" required>
+                {% for department in departments %}
+                    {% if (department.id == department_id) %}
+                        <option value="{{ department.id }}" selected>{{ department.name }}</option>
+                    {% else %}
+                        <option value="{{ department.id }}">{{ department.name }}</option>
+                    {% endif %}
+                {% endfor %}
+            </select>
+        </div>
+        <br>
+        <div class="row">
+            <input class="btn btn-default" type="submit" value="{{ button }}">
+        </div>
+    </form>
+{% endblock %}

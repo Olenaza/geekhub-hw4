@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Universities Form</h1>
+    <form method="GET" action="#">
+        <input type="hidden" name="controller" value="universities">
+        <input type="hidden" name="action" value="{{ action }}">
+        <input type="hidden" name="id" value="{{ id }}">
+        <div class="row">
+            <label for="=name">Name:</label>
+            <input class="form-control" type="text" id="name" name="name" value="{{ name }}" required>
+        </div>
+        <div class="row">
+            <label for="city">City:</label>
+            <input class="form-control" type="text" id="city" name="city" value="{{ city }}" required>
+        </div>
+        <div class="row">
+            <label for="site">Site:</label>
+            <input class="form-control" type="text" id="site" name="site" value="{{ site }}">
+        </div>
+        <br>
+        <div class="row">
+            <input class="btn btn-default" type="submit" value="{{ button }}">
+        </div>
+    </form>
+{% endblock %}
