@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Results for task id {{ task_id }}: {{ task_name }}</h1>
+    <hr>
+    <table class="table table-bordered">
+        <tr>
+            <th>Name</th>
+            <th>Competed(1)/Not Completed(0)</th>
+            <th>Actions</th>
+        </tr>
+        {% for result in results %}
+            <tr>
+                <td>{{ result.student_name }}</td>
+                <td>{{ result.submission }}</td>
+                <td>
+                    <a href="index.php?controller=results&action=edit&student_id={{ result.student_id }}&task_id={{ task_id }}&submission={{result.submission }}">change</a>
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+{% endblock %}

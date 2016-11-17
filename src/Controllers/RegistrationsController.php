@@ -39,7 +39,11 @@ class RegistrationsController
     {
         $registrationsData = $this->repository->findAll();
 
-        return $this->twig->render('Registrations/registrations.html.twig', ['registrations' => $registrationsData]);
+        return $this->twig->render('Registrations/registrations.html.twig',
+            [
+                'title' => 'Registrations',
+                'registrations' => $registrationsData,
+            ]);
     }
 
     /**
@@ -93,5 +97,23 @@ class RegistrationsController
         }
 
         return $this->twig->render('Registrations/registration_delete.html.twig', array('student_id' => $_GET['student_id'], 'subject_id' => $_GET['subject_id']));
+    }
+
+    /**
+     * Show form for searching by subject and show search results.
+     *
+     * @return string
+     */
+    public function searchAction()
+    {
+        $subjectData = $this->subjects_repository->find($_GET['search_subject_id']);
+        $registrationsData = $this->repository->findBy(['subject_id' => $_GET['search_subject_id']]);
+
+        return $this->twig->render('Registrations/registrations.html.twig',
+            [
+                'title' => 'Registrations for '.$subjectData['name'].' (id '.$subjectData['id'].')',
+                'registrations' => $registrationsData,
+            ]
+        );
     }
 }

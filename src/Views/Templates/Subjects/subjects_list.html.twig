@@ -16,6 +16,7 @@
                 <a href="index.php?controller=subjects&action=edit&id={{ subject.id }}">edit</a>
                 <a href="index.php?controller=subjects&action=delete&id={{ subject.id }}">delete</a>
                 <a href="index.php?controller=registrations&action=new&id={{ subject.id }}">register students</a>
+                <a href="index.php?controller=registrations&action=search&search_subject_id={{ subject.id }}">show registered</a>
             </td>
         </tr>
     {% endfor %}

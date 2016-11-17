@@ -2,7 +2,7 @@
 
 namespace Repositories;
 
-class RegistrationsRepository implements RepositoryInterface
+class RegistrationsRepository
 {
     private $connector;
 
@@ -22,12 +22,11 @@ class RegistrationsRepository implements RepositoryInterface
         $statement = $this->connector->getPdo()->prepare(
             'SELECT registrations.student_id AS student_id, 
               registrations.subject_id AS subj_id, 
-              students.first_name AS student_first_name, 
-              students.last_name AS student_last_name, 
+              CONCAT(students.first_name, " ", students.last_name) AS student_name, 
               subjects.name AS subj_name 
               FROM registrations 
-              JOIN students ON registrations.student_id=students.id 
-              JOIN subjects ON registrations.subject_id=subjects.id 
+              JOIN students ON registrations.student_id = students.id 
+              JOIN subjects ON registrations.subject_id = subjects.id 
               LIMIT :limit OFFSET :offset'
         );
         $statement->bindValue(':limit', (int) $limit, \PDO::PARAM_INT);
@@ -44,8 +43,7 @@ class RegistrationsRepository implements RepositoryInterface
             $results[] = [
                 'student_id' => $result['student_id'],
                 'subject_id' => $result['subj_id'],
-                'student_first_name' => $result['student_first_name'],
-                'student_last_name' => $result['student_last_name'],
+                'student_name' => $result['student_name'],
                 'subject_name' => $result['subj_name'],
             ];
         }
@@ -72,18 +70,23 @@ class RegistrationsRepository implements RepositoryInterface
         return $statement->execute();
     }
 
-    public function update(array $entityData)
-    {
-        // TODO: Implement update() method.
-    }
-
-    public function find($id)
-    {
-        // TODO: Implement find() method.
-    }
-
     public function findBy($criteria = [])
     {
-        // TODO: Implement findBy() method.
+        $statement = $this->connector->getPdo()->prepare('SELECT 
+              registrations.student_id AS student_id, 
+              registrations.subject_id AS subj_id, 
+              CONCAT(students.first_name, " ", students.last_name) AS student_name, 
+              subjects.name AS subj_name 
+              FROM registrations 
+              JOIN students ON registrations.student_id = students.id 
+              JOIN subjects ON registrations.subject_id = subjects.id 
+              WHERE registrations.subject_id = :subject_id 
+              LIMIT 1000');
+
+        $statement->bindValue(':subject_id', $criteria['subject_id'], \PDO::PARAM_INT);
+
+        $statement->execute();
+
+        return $this->fetchRegistrationData($statement);
     }
 }

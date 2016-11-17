@@ -74,6 +74,15 @@ class TablesRepository
           FOREIGN KEY (subject_id) REFERENCES subjects (id) ON DELETE CASCADE ON UPDATE CASCADE
           ) CHARACTER SET utf8');
 
+        $this->connector->getPdo()->query('CREATE TABLE IF NOT EXISTS results(
+          student_id INT(10) NOT NULL, 
+          task_id INT(10) NOT NULL, 
+          submission TINYINT(1) NOT NULL,
+          PRIMARY KEY (student_id, task_id),
+          FOREIGN KEY (student_id) REFERENCES students (id) ON DELETE CASCADE ON UPDATE CASCADE, 
+          FOREIGN KEY (task_id) REFERENCES tasks (id) ON DELETE CASCADE ON UPDATE CASCADE
+          ) CHARACTER SET utf8');
+
         return;
     }
 }
